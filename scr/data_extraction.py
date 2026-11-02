@@ -26,7 +26,7 @@ def extract_data():
   # Mostrar dónde se han guardado los datos
   print(f"Datos extraídos correctamente: {RAW_DATA_PATH}")
 
+
 # Ejecutar la extracción cuando se inicia este archivo
 if __name__ == "__main__":
     extract_data()
-
