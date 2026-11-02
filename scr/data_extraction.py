@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.datasets import load_diabetes
 
 # Localizar la carpeta principal del proyecto
-PROJECT_ROOT = Path(_file_).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # Indicar dónde vamos a guardar los datos originales
 RAW_DATA_PATH = PROJECT_ROOT/"data"/"raw"/"diabetes.csv"
@@ -27,6 +27,6 @@ def extract_data():
   print(f"Datos extraídos correctamente: {RAW_DATA_PATH}")
 
 # Ejecutar la extracción cuando se inicia este archivo
-if _name_ == "_main_":
+if __name__ == "__main__":
     extract_data()
 
