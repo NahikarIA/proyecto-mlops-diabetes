@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 
 # Localizar la carpeta principal del proyecto
-PROJECT_ROOT = Path(_file_).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # Indicar dónde se encuentran los datos originales
 RAW_DATA_PATH = PROJECT_ROOT / "data" / "raw" / "diabetes.csv"
@@ -59,5 +59,5 @@ print(f"Número de columnas: {len(df.columns)}")
 return df
 
 # Ejecutar la validación si iniciamos este archivo directamente
-if _name_ == "_main_":
+if __name__ == "__main__":
   validate_data()
