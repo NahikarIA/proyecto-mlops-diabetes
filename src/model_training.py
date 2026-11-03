@@ -77,7 +77,11 @@ def train_models(X_train, X_test, y_train, y_test):
             mlflow.log_metric("R2", r2)
 
             # Guardar el modelo como artefacto en MLflow
-            mlflow.sklearn.log_model(model, artifact_path="model")
+            mlflow.sklearn.log_model(
+                model,
+                artifact_path="model",
+                skops_trusted_types=["sklearn.tree._tree.Tree"]
+            )
 
             # Guardar los resultados de cada modelo
             results[name] = {
