@@ -1,0 +1,24 @@
+# Archivos temporales de Python
+__pycache__/
+*.py[cod]
+
+# Entornos virtuales
+venv/
+.env/
+
+# Archivos de MLflow
+mlflow.db
+mlflow.db-journal
+mlruns/
+mlartifacts/
+
+# Datos generados durante el proyecto
+data/raw/*.csv
+data/processed/*.csv
+
+# Archivos temporales de notebooks
+.ipynb_checkpoints/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
