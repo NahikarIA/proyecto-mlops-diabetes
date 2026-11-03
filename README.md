@@ -1,16 +1,16 @@
 # Proyecto MLOps: Predicción de la progresión de la diabetes
 
-## 1. ¿En qué consiste el proyecto?
+## ¿En qué consiste el proyecto?
 
-En este proyecto he trabajado en la creación de un proceso básico de MLOps utilizando un conjunto de datos relacionado con la diabetes.
+Este proyecto consiste en desarrollar un proceso básico de MLOps para trabajar con un modelo de Machine Learning capaz de realizar predicciones relacionadas con la progresión de la diabetes.
 
-La idea es realizar las diferentes fases necesarias para trabajar con un modelo de Machine Learning: obtener los datos, comprobar que están bien, limpiarlos, entrenar varios modelos, comparar sus resultados y guardar el que haya conseguido mejores métricas.
+El proceso incluye la obtención, validación y limpieza de los datos, el entrenamiento y la evaluación de varios modelos, y el registro del modelo seleccionado en MLflow.
 
-También he creado una API con FastAPI para poder utilizar el modelo y obtener predicciones.
+También incluye una API con FastAPI para consultar el modelo y realizar predicciones.
 
-## 2. Datos utilizados
+## Datos utilizados
 
-Para realizar el proyecto he utilizado el conjunto de datos `load_diabetes`, disponible en la biblioteca Scikit-learn.
+Para realizar el proyecto se utiliza el conjunto de datos `load_diabetes` de Scikit-learn.
 
 Este conjunto contiene:
 
@@ -18,13 +18,11 @@ Este conjunto contiene:
 - 10 variables de entrada.
 - Una variable objetivo llamada `target`.
 
-El objetivo es predecir un valor relacionado con la progresión de la diabetes.
-
 Las variables están transformadas, por lo que sus valores no corresponden directamente a medidas habituales como la edad en años o el peso en kilos.
 
-## 3. Organización del proyecto
+## Organización del proyecto
 
-He organizado el proyecto en diferentes carpetas para tener cada parte del trabajo separada:
+El proyecto está organizado en diferentes carpetas para separar las distintas tareas:
 
 ```text
 proyecto-mlops-diabetes/
@@ -59,26 +57,27 @@ proyecto-mlops-diabetes/
 │   └── README.md
 │
 ├── .gitignore
-└── requirements.txt
+├── requirements.txt
+└── README.md
 ```
 
-## 4. Herramientas utilizadas
+## Herramientas utilizadas
 
-Estas son las principales herramientas que he utilizado durante el proyecto:
+Las principales herramientas utilizadas en el proyecto son:
 
-- Python: lenguaje de programación.
-- Pandas y NumPy: para trabajar con los datos.
-- Scikit-learn: para entrenar y evaluar los modelos.
-- MLflow: para guardar los resultados y registrar los modelos.
-- FastAPI: para crear la API de predicciones.
-- Pydantic: para validar los datos que recibe la API.
-- Uvicorn: para iniciar la API.
-- GitHub Actions: para automatizar la ejecución del pipeline.
-- Google Colab: entorno utilizado para trabajar con Python.
+- **Python:** lenguaje de programación.
+- **Pandas y NumPy:** para trabajar con los datos.
+- **Scikit-learn:** para entrenar y evaluar los modelos.
+- **MLflow:** para registrar los entrenamientos y los modelos.
+- **FastAPI:** para desarrollar la API de predicciones.
+- **Pydantic:** para validar los datos recibidos por la API.
+- **Uvicorn:** para iniciar la API.
+- **GitHub Actions:** para automatizar la ejecución del pipeline.
+- **Google Colab:** entorno de trabajo utilizado durante el desarrollo.
 
-## 5. Instalación
+## Instalación
 
-Primero hay que descargar el repositorio:
+Para descargar el repositorio:
 
 ```bash
 git clone https://github.com/NahikarIA/proyecto-mlops-diabetes.git
@@ -96,127 +95,104 @@ Instalar las dependencias:
 pip install -r requirements.txt
 ```
 
-## 6. Ejecución del pipeline
+## Ejecución del pipeline
 
-He creado un archivo llamado `run_pipeline.py` para poder ejecutar todas las fases del proyecto desde un único sitio.
+El archivo `pipeline/run_pipeline.py` permite ejecutar todas las fases del proyecto de forma consecutiva.
 
-Para ponerlo en marcha hay que ejecutar:
+Para iniciar el proceso, desde la carpeta principal del proyecto, ejecutar:
 
 ```bash
 python -m pipeline.run_pipeline
 ```
 
-El proceso realiza los siguientes pasos:
+El pipeline realiza las siguientes tareas:
 
-1. **Extracción:** obtiene los datos originales.
-2. **Validación:** comprueba que los datos tienen las columnas esperadas y que no faltan valores obligatorios.
-3. **Limpieza:** elimina posibles valores nulos y registros duplicados.
-4. **Entrenamiento:** entrena varios modelos y compara sus resultados.
-5. **Registro:** guarda en MLflow el modelo que cumple los criterios de calidad.
+1. Extracción de los datos originales.
+2. Validación de los datos.
+3. Limpieza y preparación de los datos.
+4. Entrenamiento y evaluación de los modelos.
+5. Registro de los modelos en MLflow y selección del modelo campeón.
 
-## 7. Entrenamiento y resultados
+## Entrenamiento y resultados
 
-Para comparar los resultados he utilizado tres modelos:
+Se han utilizado tres modelos de regresión:
 
-- Linear Regression (Regresión lineal).
-- Random Forest (Bosque aleatorio).
+- Linear Regression.
+- Random Forest.
 - Gradient Boosting.
 
-Para evaluar su funcionamiento he utilizado tres métricas:
+Para evaluar los resultados se utilizan las métricas RMSE, MAE y R².
 
-- **RMSE:** mide el error de las predicciones.
-- **MAE:** calcula el error absoluto medio.
-- **R²:** indica cuánto explica el modelo de la variación de los datos.
+### Criterios de selección
 
-### Criterio para elegir el modelo
-
-He establecido dos condiciones para seleccionar el modelo:
+Para seleccionar el modelo campeón se establecen dos condiciones:
 
 - RMSE inferior a 55.
 - R² superior a 0.40.
 
-De los modelos que cumplen estas condiciones, se selecciona el que tiene el RMSE más bajo.
+Entre los modelos que cumplen estas condiciones, se selecciona el que obtiene el RMSE más bajo.
 
-En las pruebas realizadas he obtenido estos resultados:
+Resultados obtenidos:
 
-- **Linear Regression:** RMSE 53.85, MAE 42.79 y R² 0.45.
-- **Random Forest:** RMSE 54.33, MAE 44.05 y R² 0.44.
-- **Gradient Boosting:** RMSE 53.84, MAE 44.60 y R² 0.45.
+| Modelo | RMSE | MAE | R² |
+|---|---:|---:|---:|
+| Linear Regression | 53.85 | 42.79 | 0.45 |
+| Random Forest | 54.33 | 44.05 | 0.44 |
+| Gradient Boosting | 53.84 | 44.60 | 0.45 |
 
-El modelo seleccionado ha sido Gradient Boosting, porque ha obtenido el RMSE más bajo.
+El modelo seleccionado es Gradient Boosting, al obtener el RMSE más bajo.
 
-## 8. MLflow y registro del modelo
+## MLflow y registro del modelo
 
-He utilizado MLflow para guardar la información de los entrenamientos y poder consultar los resultados de los diferentes modelos.
+MLflow se utiliza para guardar los parámetros, las métricas y los modelos obtenidos durante los entrenamientos.
 
-También he registrado el modelo seleccionado con el nombre:
+El modelo seleccionado se registra con el nombre:
 
 `Diabetes_Champion_Model`
 
-Para identificarlo he utilizado el alias:
+También se le asigna el alias:
 
 `champion`
 
-De esta manera, la API puede cargar el modelo seleccionado sin tener que indicar manualmente su versión.
+Este alias permite que la API pueda cargar el modelo seleccionado sin tener que indicar manualmente su versión.
 
-## 9. API con FastAPI
+## API de predicciones
 
-Otra parte del proyecto ha sido crear una API que permite consultar el estado del servicio y realizar predicciones utilizando el modelo registrado en MLflow.
+El proyecto incluye una API desarrollada con FastAPI para consultar el estado del servicio y realizar predicciones.
 
-Antes de iniciar la API por primera vez, hay que ejecutar el pipeline para que el modelo quede registrado en MLflow.
+Antes de iniciar la API, es necesario ejecutar el pipeline para registrar el modelo en MLflow.
 
-Para iniciar la API, desde la carpeta principal del proyecto, hay que ejecutar:
+Para iniciar la API:
 
 ```bash
 uvicorn api.main:app --reload
 ```
 
-Una vez iniciada, se puede acceder a la documentación interactiva desde:
+La documentación interactiva está disponible en:
 
 http://127.0.0.1:8000/docs
 
 La API dispone de tres endpoints:
 
-- **GET /health:** comprueba que la API está activa y que el modelo se ha cargado correctamente.
-- **GET /model-info:** muestra información sobre el modelo utilizado.
-- **POST /predict:** recibe los datos y devuelve una predicción.
+- `GET /health`: comprueba que la API está activa y que el modelo se ha cargado correctamente.
+- `GET /model-info`: muestra información sobre el modelo registrado.
+- `POST /predict`: recibe los datos de entrada y devuelve una predicción.
 
-### Ejemplo de datos para realizar una predicción
+## GitHub Actions
 
-```json
-{
-  "age": 0.05,
-  "sex": 0.04,
-  "bmi": 0.07,
-  "bp": 0.02,
-  "s1": -0.03,
-  "s2": -0.04,
-  "s3": -0.01,
-  "s4": -0.02,
-  "s5": 0.04,
-  "s6": 0.01
-}
-```
+El proyecto incluye un flujo de trabajo de GitHub Actions que ejecuta automáticamente el pipeline cuando se realizan cambios en la rama `main`.
 
-La respuesta de la API es un valor numérico que corresponde a la predicción del modelo.
-
-## 10. GitHub Actions
-
-También he configurado GitHub Actions para que el proyecto pueda comprobarse automáticamente cuando se suben cambios a la rama `main`.
-
-El flujo realiza estas tareas:
+El proceso realiza las siguientes tareas:
 
 1. Descarga el repositorio.
 2. Prepara el entorno de Python.
 3. Instala las dependencias.
 4. Ejecuta el pipeline completo.
 
-He comprobado que la ejecución termina correctamente, por lo que la automatización está funcionando.
+La ejecución se ha comprobado y finaliza correctamente.
 
-## 11. Limitaciones del proyecto
+## Limitaciones del proyecto
 
-Este proyecto se ha realizado con fines de aprendizaje, utilizando un conjunto de datos pequeño y modelos básicos de Machine Learning.
+Este proyecto tiene fines de aprendizaje y utiliza un conjunto de datos y modelos básicos de Machine Learning.
 
-Los resultados dependen de los datos utilizados y de la configuración de los modelos.
-
-La API sirve para probar el funcionamiento del modelo y obtener predicciones, pero no está pensada para realizar diagnósticos médicos ni para tomar decisiones clínicas.
+La API permite realizar pruebas y obtener predicciones, pero no está diseñada para realizar diagnósticos médicos ni para tomar decisiones clínicas.
