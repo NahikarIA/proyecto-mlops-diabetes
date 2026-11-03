@@ -101,6 +101,26 @@ def train_models(X_train, X_test, y_train, y_test):
             print(f"MAE: {mae:.2f}")
             print(f"R2: {r2:.2f}")
 
+    # Seleccionar los modelos que cumplen los criterios de calidad
+    approved_models = {
+        name: result
+        for name, result in results.items()
+        if result["RMSE"] < MAX_RMSE and result["R2"] > MIN_R2
+    }
+
+    # Comprobar si hay algún modelo que cumpla los criterios
+    if not approved_models:
+        print("Ningún modelo ha superado los criterios de calidad")
+        return results
+
+    # Seleccionar el modelo con menor RMSE
+    champion_name = min(
+        approved_models,
+        key=lambda name: approved_models[name]["RMSE"]
+    )
+
+    print(f"\nModelo campeón seleccionado: {champion_name}")    
+    
     return results
 
 
