@@ -190,9 +190,3 @@ El proceso realiza las siguientes tareas:
 4. Ejecuta el pipeline completo.
 
 La ejecución se ha comprobado y finaliza correctamente.
-
-## Limitaciones del proyecto
-
-Este proyecto tiene fines de aprendizaje y utiliza un conjunto de datos y modelos básicos de Machine Learning.
-
-La API permite realizar pruebas y obtener predicciones, pero no está diseñada para realizar diagnósticos médicos ni para tomar decisiones clínicas.
