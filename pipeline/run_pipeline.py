@@ -2,7 +2,7 @@
 from src.data_extraction import extract_data
 from src.data_validation import validate_data
 from src.data_cleaning import clean_data
-from src.model_training import train_models
+from src.model_training import load_data, train_models
 
 
 # Ejecutar el proceo completo de MLOps
@@ -18,7 +18,12 @@ def run_pipeline():
     clean_data()
 
     print("\n--- FASE 4: ENTRENAMIENTO Y REGISTRO ---")
-    train_models()
+
+    # Preparar los datos para el train
+    X_train, X_test, y_train, y_test = load_data()
+
+    # Entrenar los modelos y registar el campeón
+    train_models(X_train, X_test, y_train, y_test)
 
     print("\n--- PIPELINE COMPLETADO CORRECTAMENTE ---")
 
