@@ -20,7 +20,7 @@ mlflow.set_experiment("Diabetes_ML_Experiments")
 
 # Definir los criterios mínimos de calidad del modelo
 MAX_RMSE = 55
-MIN_R2 = 40
+MIN_R2 = 0.40
 
 
 def load_data():
