@@ -121,6 +121,31 @@ def train_models(X_train, X_test, y_train, y_test):
     )
 
     print(f"\nModelo campeón seleccionado: {champion_name}")    
+
+    # Registrar el modelo campeón en MLflow
+    champion_model = approved_models[champion_name]["model"]
+    champion_run_id = approved_models[champion_name]["run_id"]
+
+    model_name = "Diabetes_Champion_Model"
+
+    model_info = mlflow.sklearn.log_model(
+        champion_model,
+        name="champion_model",
+        registered_model_name=model_name,
+        skops_trusted_types=["sklearn.tree._tree.Tree"]
+    )
+
+    # Asignar el alias champion a la versión registrada
+    client = MlflowClient()
+
+    client.set_registered_model_alias(
+        name=model_name,
+        alias="champion",
+        version=model_info.registered_model_version
+    )
+
+    print(f"Modelo registrado: {model_name}")
+    print("Alias asignado: champion")
     
     return results
 
