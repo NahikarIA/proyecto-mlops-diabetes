@@ -2,6 +2,7 @@
 from pathlib import Path
 import pandas as pd
 import mlflow
+from mlflow import MlflowClient
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
