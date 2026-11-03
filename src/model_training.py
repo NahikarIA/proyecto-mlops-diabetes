@@ -18,6 +18,10 @@ DATA_PATH = PROJECT_ROOT / "data" / "processed" / "diabetes_clean.csv"
 # Definir el nombre del experimento en MLflow
 mlflow.set_experiment("Diabetes_ML_Experiments")
 
+# Definir los criterios mínimos de calidad del modelo
+MAX_RMSE = 55
+MIN_R2 = 40
+
 
 def load_data():
     # Cargar los datos limpios
