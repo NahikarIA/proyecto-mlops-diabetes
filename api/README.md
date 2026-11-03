@@ -61,7 +61,7 @@ La respuesta contiene el valor de la predicción:
 
 ```json
 {
-  "prediction": 230.09
+  "prediction": 230.09270103746763
 }
 ```
 
