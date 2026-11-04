@@ -15,8 +15,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # Configurar la base de datos de MLflow
 MLFLOW_DB = PROJECT_ROOT / "mlflow.db"
-mlflow.set.tracking.uri(f"sqlite:///{MLFLOW_dB}")
-mlflow.set.registry.uri(f"sqlite:///{MLFLOW_dB}")
+mlflow.set_tracking_uri(f"sqlite:///{MLFLOW_DB}")
+mlflow.set_registry_uri(f"sqlite:///{MLFLOW_DB}")
 
 # Indicar dónde están guardados los datos limpios
 DATA_PATH = PROJECT_ROOT / "data" / "processed" / "diabetes_clean.csv"
