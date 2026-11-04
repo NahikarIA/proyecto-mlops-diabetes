@@ -139,6 +139,3 @@ def predict(data: DiabetesData):
             status_code=500,
             detail=f"Error al realizar la predicción: {str(error)}"
         )
-     
-            
-          
