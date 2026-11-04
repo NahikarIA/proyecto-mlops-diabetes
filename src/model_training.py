@@ -14,7 +14,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # Configurar la base de datos de MLflow
-MLFLOW_DB = PROJECT ROOT / "mlflow.db"
+MLFLOW_DB = PROJECT_ROOT / "mlflow.db"
 mlflow.set.tracking.uri(f"sqlite:///{MLFLOW_dB}")
 mlflow.set.registry.uri(f"sqlite:///{MLFLOW_dB}")
 
