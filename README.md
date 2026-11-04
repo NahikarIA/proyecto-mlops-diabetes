@@ -123,7 +123,7 @@ Se han utilizado tres modelos de regresión:
 
 Para evaluar los resultados se utilizan las métricas RMSE, MAE y R².
 
-### Criterios de selección
+## Criterios de selección
 
 Para seleccionar el modelo campeón se establecen dos condiciones:
 
@@ -194,7 +194,6 @@ La API contempla los siguientes códigos de respuesta:
 - `422`: los datos enviados son incorrectos o faltan campos obligatorios.
 - `503`: el modelo no está disponible.
 - `500`: se ha producido un error durante la predicción.
-
 
 ## GitHub Actions
 
