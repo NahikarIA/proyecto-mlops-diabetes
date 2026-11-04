@@ -13,7 +13,7 @@ MLFLOW_DB = PROJECT_ROOT / "mlflow.db"
 mlflow.set_tracking_uri(f"sqlite:///{MLFLOW_DB}")
 mlflow.set_registry_uri(f"sqlite:///{MLFLOW_DB}")
 
-# Nombre y alias del modelo que se va utilizar
+# Nombre y alias del modelo
 MODEL_NAME = "Diabetes_Champion_Model"
 MODEL_ALIAS = "champion"
 
@@ -28,33 +28,33 @@ app = FastAPI(
 model = None
 model_version = None
 
-# Cargar el modelo campeón desde el registro de MLflow
+# Cargar el modelo campeón desde MLflow
 try:
     client = mlflow.MlflowClient()
-    
+
     # Obtener la versión asociada al alias champion
     champion = client.get_model_version_by_alias(
         name=MODEL_NAME,
         alias=MODEL_ALIAS
     )
 
-    # Guardar la versión exacta del modelo
+    # Guardar la versión del modelo
     model_version = str(champion.version)
 
-    # Cargar esa versión concreta del modelo
+    # Cargar esa versión concreta
     model = mlflow.sklearn.load_model(
         f"models:/{MODEL_NAME}/{model_version}"
     )
 
     print(f"Modelo campeón cargado correctamente. Versión: {model_version}")
-    
+
 except Exception as error:
     model = None
     model_version = None
     print(f"No se ha podido cargar el modelo: {error}")
 
 
-# Definir los datos que recibirá la API para hacer una predicción
+# Definir los datos de entrada
 class DiabetesData(BaseModel):
     age: float
     sex: float
@@ -67,37 +67,32 @@ class DiabetesData(BaseModel):
     s5: float
     s6: float
 
+
 # Comprobar el estado de la API
 @app.get("/health")
 def health_check():
-
-    # Comprobar si el modelo está disponible
     if model is None:
         raise HTTPException(
             status_code=503,
             detail="El modelo no está disponible"
         )
 
-    # Devolver el estado de la API
     return {
         "status": "ok",
         "model_loaded": True
     }
 
 
-# Consultar información del modelo utilizado por la API
+# Consultar información del modelo
 @app.get("/model-info")
 def model_info():
-
-    # Comprobar si el modelo está disponible
     if model is None:
         raise HTTPException(
             status_code=503,
             detail="El modelo no está disponible"
         )
 
-    # Devolver la informació´n del modelo cargado
-    return{
+    return {
         "model_name": MODEL_NAME,
         "model_alias": MODEL_ALIAS,
         "model_version": model_version,
@@ -105,11 +100,9 @@ def model_info():
     }
 
 
-# Realizar una predicción con el modelo
+# Realizar una predicción
 @app.post("/predict")
 def predict(data: DiabetesData):
-
-    # Comprobar si el modelo está disponible
     if model is None:
         raise HTTPException(
             status_code=503,
@@ -117,7 +110,7 @@ def predict(data: DiabetesData):
         )
 
     try:
-        # Convertir los datos recibidos en una lista
+        # Preparar los datos de entrada
         input_data = [[
             data.age,
             data.sex,
@@ -131,10 +124,10 @@ def predict(data: DiabetesData):
             data.s6
         ]]
 
-        # Obtener la predicción del modelo
+        # Obtener la predicción
         prediction = model.predict(input_data)
 
-        # Devolver la predicción y la versión del modelo
+        # Devolver la predicción y la versión utilizada
         return {
             "prediction": float(prediction[0]),
             "model_version": model_version
