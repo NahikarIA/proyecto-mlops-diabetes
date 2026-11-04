@@ -140,7 +140,7 @@ Resultados obtenidos:
 | Random Forest | 54.33 | 44.05 | 0.44 |
 | Gradient Boosting | 53.84 | 44.60 | 0.45 |
 
-El modelo seleccionado es Gradient Boosting, al obtener el RMSE más bajo.
+El modelo seleccionado es Gradient Boosting, ya que cumple los criterios establecidos y obtiene el RMSE más bajo entre los modelos evaluados en el pipeline.
 
 ## MLflow y registro del modelo
 
