@@ -20,6 +20,8 @@ Este conjunto contiene:
 
 Las variables están transformadas, por lo que sus valores no corresponden directamente a medidas habituales como la edad en años o el peso en kilos.
 
+El objetivo del modelo es estimar la progresión de la enfermedad a partir de las variables disponibles. No se trata de una herramienta de diagnóstico médico.
+
 ## Organización del proyecto
 
 El proyecto está organizado en diferentes carpetas para separar las distintas tareas:
@@ -178,14 +180,52 @@ La API dispone de tres endpoints:
 - `GET /model-info`: muestra información sobre el modelo registrado, incluyendo su nombre, alias y versión.
 - `POST /predict`: recibe los datos de entrada y devuelve una predicción junto con la versión del modelo utilizada.
 
-## Ejemplo de respuesta de predicción
+## Ejemplo de petición de predicción
+
+Para realizar una predicción, se deben enviar las diez variables de entrada en formato JSON:
 
 ```json
 {
-  "prediction": 237.35568496718219,
-  "model_version": "2"
+  "age": 0.04,
+  "sex": 0.05,
+  "bmi": 0.06,
+  "bp": 0.02,
+  "s1": -0.04,
+  "s2": -0.03,
+  "s3": -0.02,
+  "s4": 0.03,
+  "s5": 0.04,
+  "s6": 0.02
 }
 ```
+
+## Ejemplo de respuesta de predicción
+
+La API devuelve el resultado de la predicción y la versión del modelo utilizada:
+
+```json
+{
+  "prediction": 229.34141772382094,
+  "model_version": "1"
+}
+```
+
+La versión mostrada es un ejemplo y puede cambiar cuando se registra una nueva versión del modelo.
+
+## Pruebas de la API
+
+Para comprobar el funcionamiento de la API se puede acceder a su documentación interactiva desde:
+
+http://127.0.0.1:8000/docs
+
+Desde esta página se pueden probar los diferentes endpoints:
+
+1. Seleccionar el endpoint que se desea probar.
+2. Pulsar en "Try it out".
+3. Introducir los datos necesarios.
+4. Pulsar en "Execute".
+5. Comprobar el código de respuesta y el resultado obtenido.
+
 ## Gestión de errores
 
 La API contempla los siguientes códigos de respuesta:
