@@ -24,15 +24,33 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Inicializar las variables del modelo
+model = None
+model_version = None
+
 # Cargar el modelo campeón desde el registro de MLflow
 try:
-    model = mlflow.sklearn.load_model(
-        f"models:/{MODEL_NAME}@{MODEL_ALIAS}"
+    client = mlflow.MlflowClient()
+    
+    # Obtener la versión asociada al alias champion
+    champion = client.get_model_version_by_alias(
+        name=MODEL_NAME,
+        alias=MODEL_ALIAS
     )
-    print("Modelo campeón cargado correctamente")
 
+    # Guardar la versión exacta del modelo
+    model_version = str(champion.version)
+
+    # Cargar esa versión concreta del modelo
+    model = mlflow.sklearn.load_model(
+        f"models:/{MODEL_NAME}/{model_version}"
+    )
+
+    print(f"Modelo campeón cargado correctamente. Versión: {model_version}")
+    
 except Exception as error:
     model = None
+    model_version = None
     print(f"No se ha podido cargar el modelo: {error}")
 
 
@@ -66,6 +84,7 @@ def health_check():
         "model_loaded": True
     }
 
+
 # Consultar información del modelo utilizado por la API
 @app.get("/model-info")
 def model_info():
@@ -77,29 +96,15 @@ def model_info():
             detail="El modelo no está disponible"
         )
 
-    try:
-        # Consultar la versión asociada al alias champion
-        client = mlflow.MlflowClient()
+    # Devolver la informació´n del modelo cargado
+    return{
+        "model_name": MODEL_NAME,
+        "model_alias": MODEL_ALIAS,
+        "model_version": model_version,
+        "status": "ready"
+    }
 
-        champion = client.get_model_version_by_alias(
-            name=MODEL_NAME,
-            alias=MODEL_ALIAS
-        )
 
-        # Devolver la información del modelo
-        return {
-            "model_name": MODEL_NAME,
-            "model_alias": MODEL_ALIAS,
-            "model_version": champion.version,
-            "status": "ready"
-        }
-
-    except Exception as error:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error al consultar el modelo: {str(error)}"
-        )
-        
 # Realizar una predicción con el modelo
 @app.post("/predict")
 def predict(data: DiabetesData):
@@ -129,9 +134,10 @@ def predict(data: DiabetesData):
         # Obtener la predicción del modelo
         prediction = model.predict(input_data)
 
-        # Devolver el resultado
+        # Devolver la predicción y la versión del modelo
         return {
-            "prediction": float(prediction[0])
+            "prediction": float(prediction[0]),
+            "model_version": model_version
         }
 
     except Exception as error:
