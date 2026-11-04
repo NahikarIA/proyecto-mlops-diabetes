@@ -185,7 +185,7 @@ La API dispone de tres endpoints:
   "prediction": 237.35568496718219,
   "model_version": "2"
 }
-
+```
 ### Gestión de errores
 
 La API contempla los siguientes códigos de respuesta:
