@@ -186,7 +186,7 @@ La API dispone de tres endpoints:
   "model_version": "2"
 }
 ```
-### Gestión de errores
+## Gestión de errores
 
 La API contempla los siguientes códigos de respuesta:
 
