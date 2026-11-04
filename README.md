@@ -175,8 +175,26 @@ http://127.0.0.1:8000/docs
 La API dispone de tres endpoints:
 
 - `GET /health`: comprueba que la API está activa y que el modelo se ha cargado correctamente.
-- `GET /model-info`: muestra información sobre el modelo registrado.
-- `POST /predict`: recibe los datos de entrada y devuelve una predicción.
+- `GET /model-info`: muestra información sobre el modelo registrado, incluyendo su nombre, alias y versión.
+- `POST /predict`: recibe los datos de entrada y devuelve una predicción junto con la versión del modelo utilizada.
+
+## Ejemplo de respuesta de predicción
+
+```json
+{
+  "prediction": 237.35568496718219,
+  "model_version": "2"
+}
+
+### Gestión de errores
+
+La API contempla los siguientes códigos de respuesta:
+
+- `200`: petición realizada correctamente.
+- `422`: los datos enviados son incorrectos o faltan campos obligatorios.
+- `503`: el modelo no está disponible.
+- `500`: se ha producido un error durante la predicción.
+
 
 ## GitHub Actions
 
